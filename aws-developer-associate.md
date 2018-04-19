@@ -82,54 +82,54 @@ Linux instances are pay by the second, windows is still pay by the hour.
  - Users with urgent computing needs for large amounts of additional capacity.
  - If you terminate the instance, you pay for the hour.
  - If AWS termiantes the spot instance, you get the hour it was terminated in for free.
- 
+
  ### Dedicated Hosts Use Cases:
  - Useful for regulatory requirements that may not support multi-tenant virtualization.
  - Great for licensing which does not support multi-tenancy or cloud deployments.
  - Can be purchased ON-Demand (hourly).
  - Can be purchased as a Reservation for up to 70% off the On-Demand price.
- 
+
  ## EC2 Instance Types
- 
- | Family | Specialty | Use Case |
- |--------|-----------|----------|
- | D2 | Dense Storage | Fileservers / Data Warehousing / Hadoop |
- | R4 | Memory Optimised | Memory Intensive Apps / DBs |
- | M4 | General Purpose | Applcation Servers |
- | C4 | Compute Optimised | CPU Intensive Apps / DBs |
- | G2 | Graphics Intensive | Video Encoding / 3D Application Streaming |
- | I2 | High Speed Storage | NoSQL DBs, Data Warehousing etc. |
- | F1 | Field Programmable Gate Array | Hardware Acceleration for your code |
- | T2 | Lowest Cost, General Purpose | Web Servers, Small DBs |
- | P2 | Graphics / General Purpose GPU | Machine Learning, Bitcoin mining etc |
- | X1 | Memory Optimised | SAP HANA / Apache Spark etc |
- 
+
+| Family | Specialty | Use Case |
+|--------|-----------|----------|
+| D2 | Dense Storage | Fileservers / Data Warehousing / Hadoop |
+| R4 | Memory Optimised | Memory Intensive Apps / DBs |
+| M4 | General Purpose | Applcation Servers |
+| C4 | Compute Optimised | CPU Intensive Apps / DBs |
+| G2 | Graphics Intensive | Video Encoding / 3D Application Streaming |
+| I2 | High Speed Storage | NoSQL DBs, Data Warehousing etc. |
+| F1 | Field Programmable Gate Array | Hardware Acceleration for your code |
+| T2 | Lowest Cost, General Purpose | Web Servers, Small DBs |
+| P2 | Graphics / General Purpose GPU | Machine Learning, Bitcoin mining etc |
+| X1 | Memory Optimised | SAP HANA / Apache Spark etc |
+
  _How to remember..._
- 
+
  __DIRTMCGFPX__
- 
+
  __DR Mc GIFT PX__
- 
+
  __D__ for Density
- 
+
  __R__ for RAM
- 
+
  __M__ main choice for general purpose applications
- 
+
  __C__ for Compute
- 
+
  __G__ for Graphics
- 
+
  __I__ for IOPS
- 
+
  __F__ for FPGA
- 
+
  __T__ cheap general purpose (think T2 micro)
- 
+
  __P__ Graphics (think pics)
- 
+
  __X__ for Extreme Memory
- 
+
  ## Elastic Block Store
  EBS Volume Types
  - __General Purpose SSD (GP2)__
@@ -206,3 +206,63 @@ Allows multiple EC2 instances to mount it.
 - Can support thousands of concurrent NFS connections.
 - Data is stored across multiple AZ's within a region.
 - Read After Write Consistency.
+
+### EC2 CLI Exam Tips
+Reference: https://docs.aws.amazon.com/cli/latest/reference/ec2/index.html
+- Use:
+	- AWS EC2 DESCRIBE_INSTANCES
+	- AWS EC2 DESCRIBE_IMAGES
+	- AWS EC2 RUN_INSTANCES
+	- AWS EC2 TERMINATE-INSTANCES
+
+- Do not confuse START-INSTANCES with RUN-INSTANCES
+
+## Lambda
+
+### What is Lambda
+AWS Lambda is a compute service where you can upload your code and create a Lambda function. AWS Lambda takes care of provisioning and managing the servers that you use to run the code. You don't have to worry about operating systems, patching, scaling, etc. You can use Lambda in the following ways.
+
+- As an event-driven compute service where AWS Lambda runs your code in response to events. These events could be changes to data in an Amazon S3 bucket or an Amazon DynamoDB table.
+- As a compute service to run your code in response to HTTP requests using Amazon API Gateway or API calls made using AWS SDKs.
+
+### Lambda Triggers
+- API Gateway
+- AWS IoT
+- Alexa Skills Kit
+- Alexa Smart Home
+- CloudFront
+- CloudWatch Events
+- CloudWatch Logs
+- CodeCommit
+- Cognito Sync Trigger
+- DynamoDB
+- Kinesis
+- S3
+- SNS
+
+### Runtimes / Languages Support by Lambda
+- C# (.NET Core 1.0)
+- C# (.NET Core 2.0)
+- Go 1.x
+- Java 8
+- Node.js 4.3
+- Node.js 6.10
+- Node.js 8.10
+- Python 2.7
+- Python 3.6
+
+### How is Lambda Priced?
+
+- Number of requests
+	- First 1 millions requests are free. $0.20 per 1 million requests thereafter.
+- Duration
+	- Duration is calculated from the time your code begins executing until it returns or otherwise terminates, rounded up to the nearest 100ms. The price depends on the amount of memory you allocate to your function. You are charged $0.00001667 for every GB-second used.
+
+
+- Lambda scales out (not up) automatically
+- Lambda functions are independant, 1 event = 1 function
+- Lambda is serverless
+- Maximum execution time is 5 minutes
+- Lambda functions can trigger other Lambda functions, 1 event can = x functions if functions trigger other functions
+- Architectures can get extremely complicated, AWS X-ray allows you to debug what is happneing.
+- Lambda can do things globally, you can use it to back up S3 buckets to other S3 buckets etc.
