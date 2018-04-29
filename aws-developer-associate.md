@@ -394,3 +394,80 @@ http://aws.amazon.com/tools/
 AWS Lambda is a compute service where you can upload your code and create a Lambda function. AWS Lambda takes care of provisioning and managing the servers that you use to run the code. You don't have to worry about operating systems, patching, scaling, etc. You can use Lambda in the following ways.
 - As an event-driven compute service where AWS Lambda runs your code in response to events. These events could be changes to data in an Amazon S3 bucket or an Amazon DynamoDB table.
 - As a compute service to run your code in response to HTTP requests using Amazon API Gateway or API calls made using AWS SDKs. 
+
+## S3
+### The Basics
+- S3 is Object based ie. allows you to upload files.
+- Files can be from 0 Bytes to 5TB.
+- There is unlimited storage.
+- Files are stored in Buckets.
+- S3 is a universal namespace, that is, names must be unique globally.
+- https://s3-eu-west-1.amazonaws.com/<bucketname>
+- When you upload a file to S3 you will receive a HHTP 200 code if the upload was successful.
+
+### Data Consistency Model for S3
+- Read after Write consistency for PUTS of new Objects.
+- Eventual Consistency for overwrite PUTS and DELETES (can take sometime to propagate).
+
+### S3 - S3 is a simple key, value store
+- S3 is Object based. Objects consist of the following;
+  - Key (This is simply the name of the object)
+  - Value (This is simply the data and is made up of a sequence of bytes).
+  - Version ID (Important for versioning).
+  - Metadata (data about the data you are storing).
+  - Subresources
+    - Access Control Lists
+    - Torrent
+  - Built for 99.99% availability for the S3 platform.
+  - Amazon Guarantee 99.9% availability.
+  - Amazon guarantees 99.999999999% durability for S3 informations (Remember 11 x 9's).
+  - Tiered Storage available.
+  - Lifecycle Management.
+  - Versioning.
+  - Encryption.
+  - Secure you data using Access Control Lists and Bucket Policies.
+
+### S3 - Storage Tiers/Classes
+- S3 - 99.99% availability, 99.999999999% durability, stored redundantly across multiple devices in multiple facilities and is designed to sustain the loss of 2 facilities concurrently.
+- S3 - IA (infrequently Accessed) For data that is accessed less frequently, but requires rapid access when needed. Lower fee than S3, but you are charged a retrieval fee.
+- Reduced Redundancy Storage - Designed to provide 99.99% durability and 99.99% availability of objects over a given year.
+- Glacier - Very cheap, but used for archival only. It takes 3 - 5 hours to restore from Glacier.
+
+Glacier is an extremely low-cost storage service for data archival. Amazon Glacier stores data for as little as $0.01 per gigabyte per month, and is optimized for data that is infrequently accessed and for which retrieval times of 3 to 5 hours are suitable.
+
+### S3 - Charges
+- Charged for;
+  - Storage
+  - Requests
+  - Storage Management Pricing
+  - Data Transfer Pricing
+  - Transfer Acceleration
+
+Amazon S3 Transfer Acceleration enables fast, east, and secure transfers of files over long distances between your end users and an S3 bucket. Transfer Acceleration takes advantage of Amazon CloudFront's globally distributed edge locations. As the data arrives at an edge location, data is routed to Amazon S3 over an optimized network path.
+
+### S3 - Exam Tips
+- Remember that S3 is Object based ie. allows you to upload files.
+- Files can be from 0 Bytes to 5 TB.
+- There is unlimited storage.
+- Files are stored in Buckets.
+- S3 is a universal namespace, that is, names must be unique globally.
+- http://<region>.amazonaws.com/<bucketname>
+- Read after Write consistency for PUTS of new Objects.
+- Eventual Consistency for overwrite PUTS and DELETES (can take some time to propagate).
+- S3 Storage Classes/Tiers
+  - S3 (durable, immediately available, frequently accessed).
+  - S3 - IA (durable, immediately available, infrequently accessed).
+  - S3 - Reduced Redundancy Storage (data that is easily reproducible, such as thumb nails etc).
+  -  Glacier - Archived data, where you can wait 3 - 5 hours before accessing.
+  -  Remember the core fundamentals of an S3 object;
+    -  Key (name)
+    -  Value (data)
+    -  Version ID
+    -  Metadata
+    -  Subresources
+      -  ACL
+      -  Torrent
+    - Object based storage only (for files).
+    - Not suitable to install an operating system on.
+    - Successful uploads will generate a HTTP 200 status code.
+    - Read the S3 FAQ before taking the exam. It comes up A LOT!
