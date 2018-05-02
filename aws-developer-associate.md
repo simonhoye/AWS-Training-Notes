@@ -471,3 +471,27 @@ Amazon S3 Transfer Acceleration enables fast, east, and secure transfers of file
     - Not suitable to install an operating system on.
     - Successful uploads will generate a HTTP 200 status code.
     - Read the S3 FAQ before taking the exam. It comes up A LOT!
+
+### Create an S3 Bucket - Exam Tips
+- Buckets are a universal name space.
+- Upload an object to S3 receive a HTTP 200 Code.
+- S3, S3 IA, S3 Reduced Redundancy Storage.
+- Encryption.
+  - Client Side Encryption.
+  - Server Side Encryption.
+	- Server side encryption with Amazon S3 Managed Keys (SSE-S3).
+	- Server side encryption with KMS (SSE-KMS).
+	- Server side encryption with Customer Provided Keys (SSE-C).
+- Control access to buckets using either a bucket ACL or using Bucket Policies.
+- BY DEFAULT BUCKETS ARE PRIVATE AND ALL OBJECTS STORED INSIDE THEM ARE PRIVATE. 
+
+### S3 Static Website Hosting
+URL Format: http://<bucketname>.s3-website-<region>.amazonaws.com
+
+### S3 - Versioning Exam Tips
+- Stores all versions of an object (including all writes and even if you delete an object).
+- Great backup tool.
+- Once enabled, Versioning cannot be disabled, only suspended.
+- Integrates with Lifecycle rules.
+- Versioning's MFA Delete capability, which uses multi-factor authentication, can be used to provide an additional layer of security.
+
