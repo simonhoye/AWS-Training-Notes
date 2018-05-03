@@ -495,3 +495,189 @@ URL Format: http://<bucketname>.s3-website-<region>.amazonaws.com
 - Integrates with Lifecycle rules.
 - Versioning's MFA Delete capability, which uses multi-factor authentication, can be used to provide an additional layer of security.
 
+### S3 - Cross Region Replication Exam Tips
+- Versioning must be enabled on both the source and destination buckets.
+- Regions must be unique.
+- Files in an existing bucket are not replicated automatically. All subsequent updated fies will be replicated automatically.
+- You cannot replicate to multiple buckets or use daisy chaining (at this time).
+- Delete markers are replicated.
+- Deleting individual versions or delete markers will not be replicated.
+- Understand what Cross Region Replication is at a high level.
+
+### S3 - Lifecycle Management Exam Tips
+- Can be used in conjunction with versioning.
+- Can be applied to current versions and previous versions.
+- Following actions can now be done:
+  - Transition to the Standard - Infrequent Access Storage Class (128k and 30 days after the creation date).
+  - Archive to the Glacier Storage Class (30 days after IA, if relevant).
+  - Permenently Delete.
+
+## Cloudfront
+
+A content delivery network (CDN) is a system of distributed servers (network) that deliver webpages and other web content to a user based on the geographic locations of the user, the origin of the webpage and a content delivery server.
+
+### Key Terminology
+- Edge Location - This is the location where the content will be cached. This is seperate to an AWS Region/AZ
+- Origin - This is the origin of all the files that the CDN will distribute. This can be either an S3 Bucket, an EC2 Instance, an Elastic Load Balancer or Route53.
+- Distribution - This is the name given to the CDN which consists of a collwction of Edge Locations.
+- Web Distribution - Typically used for Websites.
+- RTMP - Used for Media Streaming.
+
+Amazon CloudFront can be used to deliver your entire website, including dynamic, static, streaming, and interactive content using a global nework of edge locations. Requests for your content are automatically routed to the nearest edge location, so content is delivered with the bedst possible performance.
+
+Amazon CloudFront is optimised to work with other Amazon Web Services, like Amazon Simple Storage Service (Amazon S3), Amazon Elastic Compute Cloud (Amazon EC2), Amazon Elastic Load Balancing, and Amazon Route53. Amazon CloudFront also works seamlessly with any non-AWS origin server, which stores the original, definitive versions of your files.
+
+### CloudFront - Exam Tips
+- Edge Location - This is the location where content will be cached. This is seperate to an AWS Region/AZ
+- Origin - This is the origin of all the files that the CDN will distribute. This can be either an S3 Bucket, an EC2 Instance, an Elastic Load Balancer or Route53.
+- Distribution - This is the name given the CDN which consists of a collection of Edge Locations.
+  - Web Distribution - Typically used for Websites.
+  - RTMP - Used for Media Streaming.
+- Edge Locations are not just for READ only, you can write top them too. (ie. put an object on to them).
+- Objects are cached for the life of the TTL (Time To Live).
+- You can clear cached objects, but you will be charged.
+
+## S3 - Security & Encryption
+
+### Securing your buckets
+- By default, all newly created buckets are PRIVATE.
+- You can setup access control to your buckets using;
+  - Bucket Policies.
+  - Access Control Lists.
+- S3 buckets can be configured to create access logs which log all requests made to the S3 bucket. This can be done to another bucket.
+
+### Encryption
+- In Transit;
+  - SSL/TLS
+- At Rest
+  - Server Side Encryption
+    - S3 Managed Keys - **SSE-S3**
+    - AWS Key Management Service, Managed Keys - **SSE-KMS**
+    - Server Side Encryption With Customer Provided Keys - **SSE-C**
+  - Client Side Encryption
+  
+## Storage Gateway
+
+### How Can I Backup My Data?
+- Write backup data to S3 directly, using API calls.
+- Write backup data to Storage Gateway, which then securely replicates it to S3.
+
+### Storage Gateway 2017
+- File Interface
+- Volume Interface
+  - Gateway-Cached Volumes
+  - Gateway-Stored Volumes
+- Tape Interface
+  - Gateway-Virtual Tape Library
+
+- File Volumes
+  - NFS
+- Volume Gateway
+  - Cached (Gateway-Cached Volumes)
+    - -iSCSI based block storage
+  - Stored (Gateway-Stored Volumes)
+    - -iSCSI based block storage
+- Tape Gateway (Gateway-Virtual Tape Library)
+  - -iSCSI based virtual tape solution
+
+### File Gateway
+File gateway provides a virtual file server, which enables you to store and retrieve AMazon S3 objects through standard file storage protocols. File gateway allows your existing file-based applications or devices to use secure and durable cloud storage without needing to be modified. With file gateway, your configured S3 buckets will be available as Network File System (NFS) mount points. Your applications read and write files and directories over NFS, interfacing to the gateway as a file server.
+
+In turn, the gateway translates these file operations into object requests on your S3 buckets. Your most recently used data is cached on the gateway for low-latency access, and data transfers between your data center and AWS is fully managed and optimised by the gateway.
+
+### Gateway-Cached Volumes
+You can store your primary data in Amazon S3, and retain your frequently accessed dta locally. Gateway-cached volumes provide substantial cost savings on primary storage, minimise the need to scale your storage on-premises, and retain low-latency access to your frequently accessed data.
+
+### Gateway-Stored Volumes
+In the event you need low-latency access to your entire data set, you can configure your on-premises data gateway to store your primary data locally, and asynchronously back up point-in-time sapshots of the data to Amazon S3.
+
+### Gateway-Virtual Tape Library
+You can have a limitless collectin of virtual tapes. Each virtual tape can be stored in a Virtual Tape Library backed by Amazon S3 or a Virtual Tape Shelf (VTS) backed by Amazon Glacier.
+
+### Storage Limits
+- File Gateway
+  - Unlimited amount of storage. However maximum file size is 5TB.
+- Gateway-Cached Volumes
+  - Each Volume can store up to 32TB in Size.
+  - 32 Volumes supported. 1PB of data can be stored (32 x 32).
+- Gateway-Stored Volumes
+  - Each Volume can store up to 16TB in Size.
+  - 32 Volumes supported. 512TB of data can be stored (32 x 16).
+- Gateway-Vrtual Tape Library
+  - Virtual Tape Library (S3) 1500 virtual tapes (1PB).
+  - Virtual Tape Shelf (Glacier) unlimited tapes.
+
+### General Facts
+- Can be deployed on-premise, or as an EC2 instance.
+- Can schedule snapshots.
+- You can use Storage Gateway with Direct Connect.
+- You can implement bandwidth throttling.
+- On-premise need either Vmware's ESXi or Hyper-V.
+
+### Storage Requirements
+- For gateway-cached volume configuration, you will need storage for the local cache and an upload buffer.
+- For gateway-stored volume configuration, you will need storage for your entire dataset and an upload buffer. Gateway-stored volumes can range from 1 GiB to TB. Each gateway configured for gateway-stored volumes can support up to 12 volumes and a total volume storage of 16TB.
+- For gateway-VTL configuration, you will need storage for the local cache and an upload buffer.
+
+### Networking Requirements
+- Open port 443 on your firewalls.
+- Internally, you will need to allow port 80 (activation only), port 3260 (by local systems to connect to iSCSI targets exposed by the gateway) and port UDP 53 (DNS).
+
+### Encryption
+- Data in transit is secured using SSL.
+
+### Gateway-Cached and Gateway-Stored Volumes
+- You can take point-in-time, incremental snapshots of your volume and store them in Amazon S3 in the form of Amazon EBS snapshots.
+- Snapshots can be initiated on a scheduled or ad-hoc basis.
+
+- Gateway Stored Snapshots
+  - If your volume data is stored on-premises, snapshots provide durable, off-site backups in Amazon S3.
+  - You can create a new Gateway-Stored volume from a snapshot in the event you need to recover a backup.
+  - You can also use a snapshot of your Gateway-Stored volume as the starting point for a new Amazon EBS volume which you can then attach to an Amazon EC2 instance.
+
+- Gateway Cached Snapshots
+  - Snapshots can be used to preserve versions of your data, allowing you to revert to a prior version when required or to repurpose a point-in-tie version as a new Gateway-Cached volume.
+
+### Gateway-Virtual Tape Library Retrieval
+The virtual tape containing your data must be stored in a Virtual Tape Library before it can be accessed. Access to virtual tapes in your Virtual Tape Library is instantaneous.
+
+If the virtual tape containing your data is in your Virtual Tape Shelf, you must first retrieve the virtual tape from your Virtual Tape Shelf. It takes about 24 hours for the retrieved virtual tape to be available in the selected Virtual Tape Library.
+
+### Gateway-Virtual Tape Library Supports
+- Symantec NetBackup version 7.x
+- Symantec Backup Exec 2012
+- Symantec Backup Exec 2014
+- Symantec Backup Exec 15
+- Microsoft System Center 2012 Rs Data Protection Manager
+- Veeam Backup & Replication V7
+- Veeam Backup & Replication V8
+- Dell NetVault Backup 10.0
+
+### Exam Tips
+- Know the four different Storage Gateway Types:
+  - File Gateway
+  - Volume Gateway
+    - Cached - OLD NAME (Gateway-Cached Volumes)
+    - Stored - OLD NAME (Gateway-Stored Volumes)
+  - Tape Gateway - OLD NAME (Gateway-Virtual Tape Library)
+  - Remember that access to virtual tapes in your virtual library are instantaneous. If your tape is in the virtual tape shelf (glacier) it can take 24 hours to get back to your virtual tape library.
+  - Encrypted using SSL for transit and is encrypted at rest in Amazon S3 using AES-256.
+  - Gateway-Stored Volumes - stores data as Amazon EBS Snapshots in S3.
+  - Snapshots can be scheduled.
+  - Bandwidth can be throttled (good for remote sites).
+  - You need a storage gateway in each site if using multiple locations.
+
+## Snowball
+
+### Before Snowball - Import/Export Disk
+AWS Import/Export Disk accelerates moving large amounts of data into and out of the AWS cloud using portable storage devices for transport. AWS Import/Export Disk transfers your data directly onto and off of storage devices using Amazon's high-speed internal network and bypassing the Internet.
+
+### Types of Snowballs
+- Snowball
+- Snowball Edge
+- Snowmobile
+
+### Snowball
+Snowball is a petabyte-scale data transport solution that uses secure appliances to transfer large amounts of data into and out of AWS. Using Snowball addresses common challenges with large-scale data transfers including high network costs, long transfer times, and security concerns. Transferring data with Snowball is simple, fast, secure, and can be as little as one-fifth the cost of high-speed internet.
+
+80TB snowball in all regions, Snowball use multiple layers of security designed to protect your data including tamper-resistant enclosures, 256-bit encryption, and an industry Trusted Platform Module (TPM) designed to ensure both security and full chain-of-custody of your data. Once the data transfer has been processed and verified, AWS performs a software erasure of the Snowball appliance.
